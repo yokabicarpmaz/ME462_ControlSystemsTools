@@ -1,0 +1,139 @@
+#VRML_SIM R2020a utf8
+WorldInfo {
+  gravity 0 0 0
+}
+Viewpoint {
+  fieldOfView 0.8
+  orientation 0.537910387894522 0.7436056024171184 0.3971185246863205 0.14887731751746508
+  position 4.899064244896144 0.8196243676611041 49.70407548842216
+  lensFlare LensFlare {
+  }
+}
+TexturedBackground {
+  texture "dusk"
+}
+TexturedBackgroundLight {
+  luminosity 0.2
+}
+Robot {
+  rotation -1 0 0 -0.1308996938995747
+  children [
+    Camera {
+      translation 0 10 35
+      name "view"
+      fieldOfView 0.9
+      width 900
+      height 600
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 1.5
+        axis 0 0 1
+        minStop -1.5
+        maxStop 1.5
+      }
+      device [
+        PositionSensor {
+          name "sun_sensor"
+        }
+        RotationalMotor {
+          name "sun_motor"
+          maxTorque 1000
+        }
+      ]
+      endPoint Solid {
+        translation -17.95490975887298 1.2732696300186546 0
+        rotation 0 0 1 1.5
+        children [
+          PointLight {
+            attenuation 0 0 1
+            color 1 1 0.7
+            intensity 50
+            location 0 0 1
+            castShadows TRUE
+          }
+          Shape {
+            appearance Appearance {
+              material Material {
+                diffuseColor 0.8 0.8 0
+                emissiveColor 0.8 0.8 0
+                shininess 1
+                transparency 0.5
+              }
+            }
+            geometry Sphere {
+            }
+          }
+        ]
+        name "solid(1)"
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 1.4
+        axis 0 0 1
+        minStop -1.4
+        maxStop 1.4
+        dampingConstant 0.1
+      }
+      device [
+        PositionSensor {
+          name "panel_sensor"
+        }
+        RotationalMotor {
+          name "motor"
+        }
+      ]
+      endPoint Solid {
+        translation -1.9708994599769283 0.33993428580048324 0
+        rotation 0 0 1 1.3999999999999997
+        children [
+          Solid {
+            translation 0 2 0
+            children [
+              DEF PANEL Shape {
+                appearance PBRAppearance {
+                  baseColor 0.5 0.5 0.5
+                  roughness 0.1
+                  metalness 0.8
+                }
+                geometry Box {
+                  size 2 0.1 2
+                }
+              }
+            ]
+          }
+          Shape {
+            appearance Appearance {
+              material Material {
+                diffuseColor 0.2 0.2 0.2
+              }
+            }
+            geometry DEF HOLDER Cylinder {
+              height 4
+              radius 0.2
+            }
+          }
+        ]
+        boundingObject USE HOLDER
+        physics Physics {
+          mass 1
+        }
+        locked TRUE
+      }
+    }
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.2 0.2 0.2
+        }
+      }
+      geometry DEF BASE Box {
+        size 4 0.4 4
+      }
+    }
+  ]
+  boundingObject USE BASE
+  locked TRUE
+  controller "solar_keyboard"
+}

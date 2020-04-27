@@ -1,0 +1,98 @@
+#VRML_SIM R2020a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.058261517873138234 -0.9982830652142113 0.006042949746355765 0.368830877131709
+  position -0.31525734174301706 0.021143403425581703 0.8333875917453288
+  followType "None"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Robot {
+  children [
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 1.57
+        axis 0 0 1
+        anchor 0.1 0 0
+      }
+      endPoint Solid {
+        translation 0.09992036732892667 -0.09999996829318387 0.076
+        rotation 0 0 1 1.57
+        children [
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0 1 0
+              anchor -0.15 0 0
+            }
+            device [
+              RotationalMotor {
+                name "visual"
+                maxVelocity 100
+                maxTorque 100
+              }
+            ]
+            endPoint Solid {
+              translation -0.15 0.029999999999999995 0
+              children [
+                Shape {
+                  appearance Appearance {
+                    material Material {
+                      diffuseColor 0.8 0.8 0.2
+                    }
+                  }
+                  geometry DEF PROP Box {
+                    size 0.05 0.003 0.01
+                  }
+                }
+              ]
+            }
+          }
+          Propeller {
+            shaftAxis 0 1 0
+            centerOfThrust -0.15 0 0
+            device RotationalMotor {
+              name "motor"
+            }
+          }
+          Shape {
+            appearance Appearance {
+              material Material {
+                diffuseColor 0.1 0.2 0.5
+                shininess 0.1
+              }
+            }
+            geometry DEF ARM Box {
+              size 0.3 0.05 0.05
+            }
+          }
+        ]
+        boundingObject USE ARM
+        physics Physics {
+          mass 0.1
+          centerOfMass [
+            0 0 0
+          ]
+        }
+      }
+    }
+    PointLight {
+      attenuation 0 0 1
+      location 0 0.1 0.3
+    }
+    DEF WALL Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.8 0 0
+        }
+      }
+      geometry Box {
+        size 0.5 0.5 0.1
+      }
+    }
+  ]
+  boundingObject USE WALL
+  controller "propellerpy"
+}
