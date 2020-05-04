@@ -4,8 +4,8 @@ WorldInfo {
 }
 Viewpoint {
   fieldOfView 0.8
-  orientation 0.537910387894522 0.7436056024171184 0.3971185246863205 0.14887731751746508
-  position 4.899064244896144 0.8196243676611041 49.70407548842216
+  orientation 0.39831662618180996 0.8756620069090683 0.27305661494115696 0.20629892573368191
+  position 8.45618044381667 0.8196243676611206 49.18175780700454
   lensFlare LensFlare {
   }
 }
@@ -18,19 +18,12 @@ TexturedBackgroundLight {
 Robot {
   rotation -1 0 0 -0.1308996938995747
   children [
-    Camera {
-      translation 0 10 35
-      name "view"
-      fieldOfView 0.9
-      width 900
-      height 600
-    }
     HingeJoint {
       jointParameters HingeJointParameters {
-        position 1.5
+        position -1.57
         axis 0 0 1
-        minStop -1.5
-        maxStop 1.5
+        minStop -1.6
+        maxStop 1.6
       }
       device [
         PositionSensor {
@@ -42,8 +35,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -17.95490975887298 1.2732696300186546 0
-        rotation 0 0 1 1.5
+        translation 17.999994292773025 0.014333880793200748 0
+        rotation 0 0 -1 1.57
         children [
           PointLight {
             attenuation 0 0 1
@@ -70,11 +63,11 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        position 1.4
+        position -1.57
         axis 0 0 1
-        minStop -1.4
+        minStop -1.6
         maxStop 1.4
-        dampingConstant 0.1
+        dampingConstant 0.2
       }
       device [
         PositionSensor {
@@ -85,8 +78,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -1.9708994599769283 0.33993428580048324 0
-        rotation 0 0 1 1.3999999999999997
+        translation 1.9999993658636845 0.0015926534214667626 0
+        rotation 0 0 -1 1.57
         children [
           Solid {
             translation 0 2 0
@@ -102,6 +95,7 @@ Robot {
                 }
               }
             ]
+            name "PANEL"
           }
           Shape {
             appearance Appearance {
@@ -115,9 +109,12 @@ Robot {
             }
           }
         ]
-        boundingObject USE HOLDER
+        boundingObject Cylinder {
+          height 0.1
+          radius 0.2
+        }
         physics Physics {
-          mass 1
+          mass 0.25
         }
         locked TRUE
       }
@@ -133,7 +130,5 @@ Robot {
       }
     }
   ]
-  boundingObject USE BASE
-  locked TRUE
-  controller "solar_keyboard"
+  controller "solar_open_loop"
 }

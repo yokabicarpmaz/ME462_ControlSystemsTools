@@ -17,9 +17,15 @@ Robot {
         position 1.57
         axis 0 0 1
         anchor 0.1 0 0
+        dampingConstant 0.005
       }
+      device [
+        RotationalMotor {
+          name "propeller"
+        }
+      ]
       endPoint Solid {
-        translation 0.09992036732892667 -0.09999996829318387 0.076
+        translation 0.1 -0.10000000000000023 0.075
         rotation 0 0 1 1.57
         children [
           HingeJoint {
@@ -48,13 +54,6 @@ Robot {
                   }
                 }
               ]
-            }
-          }
-          Propeller {
-            shaftAxis 0 1 0
-            centerOfThrust -0.15 0 0
-            device RotationalMotor {
-              name "motor"
             }
           }
           Shape {
@@ -94,5 +93,5 @@ Robot {
     }
   ]
   boundingObject USE WALL
-  controller "propellerpy"
+  controller "propeller_keyboard"
 }
