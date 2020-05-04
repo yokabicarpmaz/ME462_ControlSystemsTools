@@ -18,7 +18,5 @@ while True:
         sim.set_velocity(-0.6)
     else:
         sim.set_velocity(0)
-
-    sim.set_velocity(0.29)
         
     time.sleep(TIME_STEP*1e-3)
