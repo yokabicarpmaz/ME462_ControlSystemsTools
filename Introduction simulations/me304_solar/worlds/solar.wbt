@@ -78,7 +78,7 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 1.9999993658636845 0.0015926534214667626 0
+        translation 1.999999365863692 0.001592653421466769 0
         rotation 0 0 -1 1.57
         children [
           Solid {
@@ -130,5 +130,5 @@ Robot {
       }
     }
   ]
-  controller "solar_open_loop"
+  controller "solar_pd"
 }

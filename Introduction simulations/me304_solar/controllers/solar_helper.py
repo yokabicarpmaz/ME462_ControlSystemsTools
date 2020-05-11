@@ -9,13 +9,16 @@ TIME_STEP = 16
 class Solar_Simulation:
 
     def __init__(self, moving_sun = True, noise = 0, disturbance = 0):
+        self.noise = noise
         self.moving_sun = moving_sun
         self.motor_torque = 0
-        self.max_motor_torque = 1
-        self.max_power = 1
+        self.max_motor_torque = 10
+        #self.max_power = 1
         self.time_limit = 5
         self.max_sun_position = 1.57
         self.sun_velocity = 0.3
+        self.sun_position = -1.57
+        self.panel_position = -1.57
         self.disturbance = disturbance
         start_thread = Thread(target = self.start_simulation, args = ())
         start_thread.start()
@@ -42,32 +45,34 @@ class Solar_Simulation:
         else:
             sun_motor.setVelocity(10)
             random_pos = random.random()*math.pi - math.pi/2
-            sun_motor.setPosition(random_pos)
+            sun_motor.setPosition(0)
             while(abs(sun_sensor.getValue() - random_pos) > 1e-2):
                 time.sleep(0.1)
-       
+        
         start_time = time.time()
         printed = False
         t = 0
         while robot.step(TIME_STEP) != -1:
-            #camera.getImage()             
             sun_position = sun_sensor.getValue()
             panel_position = panel_sensor.getValue()
+            self.sun_position = sun_position
+            self.panel_position = panel_position
             
-            if (self.moving_sun and abs(sun_position - self.max_sun_position) < 1e-1)\
-            or (not self.moving_sun and time.time() - start_time > self.time_limit):
+            if (self.moving_sun and abs(sun_position - self.max_sun_position) < 1e-1):
                 if not printed:
-                    print("Energy harvested:", self.total_energy, "J")
+                    print(f"Energy harvested: {self.total_energy} J")
                 printed = True
                 continue
             
             motor.setTorque(self.motor_torque + self.disturbance * (random.random()-0.5))
             self.total_energy += max([0, 1 - abs(panel_position-sun_position)])*TIME_STEP
             t += TIME_STEP*1e-3
-        
-        
-            
+    
     def set_torque(self, input):
         self.motor_torque = sorted([-self.max_motor_torque, input, self.max_motor_torque])[1]
+        
+    def get_sun_angle(self):
+        return self.sun_position + self.noise*random.random()
     
-    
+    def get_panel_angle(self):
+        return self.panel_position + self.noise*random.random()
