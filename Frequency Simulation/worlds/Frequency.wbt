@@ -1,0 +1,65 @@
+#VRML_SIM R2020a utf8
+WorldInfo {
+  gravity 0 0 0
+}
+Viewpoint {
+  orientation -0.6187379093423312 0.7537345995501181 0.2214668214060603 0.7640157742547246
+  position 2.3348559196600736 3.0892228425496615 3.2035609740848425
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+}
+DEF BASE Robot {
+  translation 0 0.05 0
+  children [
+    SliderJoint {
+      jointParameters JointParameters {
+        axis 0 1 0
+        springConstant 10
+        dampingConstant 0.1
+      }
+      device [
+        PositionSensor {
+          name "sensor"
+        }
+        LinearMotor {
+          name "motor"
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.8 0
+        children [
+          DEF MASS Shape {
+            appearance Appearance {
+              material Material {
+                diffuseColor 0.2 0.2 0.8
+              }
+            }
+            geometry Box {
+              size 0.1 0.1 0.1
+            }
+          }
+        ]
+        boundingObject USE MASS
+        physics Physics {
+          mass 1
+        }
+      }
+    }
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.8 0.3 0.3
+        }
+      }
+      geometry Box {
+        size 0.3 0.1 0.3
+      }
+    }
+  ]
+  name "solid"
+  controller "mass_spring_damper"
+}
