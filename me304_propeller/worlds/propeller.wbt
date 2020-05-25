@@ -1,0 +1,113 @@
+#VRML_SIM R2020a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.655843882590338 -0.7401961982142563 -0.148251103935155 0.6314273852358757
+  position -0.38645580272674246 0.34633712072362854 0.7699345858262533
+  followType "None"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Robot {
+  children [
+    Solid {
+      translation 0.15 0 0.0575
+      children [
+        Shape {
+          appearance Appearance {
+          }
+          geometry Box {
+            size 0.005 0.005 0.05
+          }
+        }
+      ]
+      name "solid(1)"
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+        anchor 0.15 0 0
+        dampingConstant 0.1
+      }
+      device [
+        PositionSensor {
+          name "sensor"
+        }
+        RotationalMotor {
+          name "propeller"
+          maxVelocity 100
+        }
+      ]
+      endPoint Solid {
+        translation 0 0 0.075
+        rotation 0 0 1 0
+        children [
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0 1 0
+              anchor -0.15 0 0
+            }
+            device [
+              RotationalMotor {
+                name "visual"
+                maxVelocity 100
+                maxTorque 100
+              }
+            ]
+            endPoint Solid {
+              translation -0.15 0.01 0
+              children [
+                Shape {
+                  appearance Appearance {
+                    material Material {
+                      diffuseColor 0.8 0.8 0.2
+                    }
+                  }
+                  geometry DEF PROP Box {
+                    size 0.05 0.003 0.01
+                  }
+                }
+              ]
+            }
+          }
+          Shape {
+            appearance Appearance {
+              material Material {
+                diffuseColor 0.1 0.2 0.5
+                shininess 0.1
+              }
+            }
+            geometry DEF ARM Box {
+              size 0.3 0.01 0.01
+            }
+          }
+        ]
+        boundingObject USE ARM
+        physics Physics {
+          mass 0.1
+          centerOfMass [
+            0 0 0
+          ]
+        }
+      }
+    }
+    PointLight {
+      attenuation 0 0 1
+      location 0 0.1 0.3
+    }
+    DEF WALL Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.8 0 0
+        }
+      }
+      geometry Box {
+        size 0.5 0.5 0.1
+      }
+    }
+  ]
+  boundingObject USE WALL
+  controller "propeller_p"
+}
