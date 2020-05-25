@@ -1,3 +1,6 @@
+# The objective of this example is to demonstrate the aim of the controller in a physical system.
+# The user can set the angular velocity of the propeller by pressing A and D buttons.
+
 import sys, os
 sys.path.append(os.path.abspath(os.path.join('..')))
 
