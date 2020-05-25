@@ -2,13 +2,13 @@ from controller import Robot, Motor, Keyboard
 import random
 import math
 from threading import Thread
-import time
 
-TIME_STEP = 16
+TIME_STEP = 32
 
 class Solar_Simulation:
 
-    def __init__(self, moving_sun = True, noise = 0, disturbance = 0):
+    def __init__(self, moving_sun = True, noise = 0, disturbance = 0, controller_output = []):
+        self.controller_output = controller_output
         self.noise = noise
         self.moving_sun = moving_sun
         self.motor_torque = 0
@@ -49,14 +49,17 @@ class Solar_Simulation:
             while(abs(sun_sensor.getValue() - random_pos) > 1e-2):
                 time.sleep(0.1)
         
-        start_time = time.time()
         printed = False
         t = 0
+        i = 0
         while robot.step(TIME_STEP) != -1:
             sun_position = sun_sensor.getValue()
             panel_position = panel_sensor.getValue()
             self.sun_position = sun_position
             self.panel_position = panel_position
+            
+            if list(self.controller_output):
+                self.set_torque(self.controller_output[i])
             
             if (self.moving_sun and abs(sun_position - self.max_sun_position) < 1e-1):
                 if not printed:
@@ -67,12 +70,13 @@ class Solar_Simulation:
             motor.setTorque(self.motor_torque + self.disturbance * (random.random()-0.5))
             self.total_energy += max([0, 1 - abs(panel_position-sun_position)])*TIME_STEP
             t += TIME_STEP*1e-3
+            i += 1
     
     def set_torque(self, input):
         self.motor_torque = sorted([-self.max_motor_torque, input, self.max_motor_torque])[1]
         
     def get_sun_angle(self):
-        return self.sun_position + self.noise*random.random()
+        return self.sun_position + (self.noise*(random.random()-0.5))
     
     def get_panel_angle(self):
-        return self.panel_position + self.noise*random.random()
+        return self.panel_position + (self.noise*(random.random()-0.5))

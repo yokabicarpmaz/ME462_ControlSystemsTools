@@ -22,7 +22,7 @@ from scipy import signal
 # Damping coefficient b, of the rotating axis is 0.1 N*s/rad.
 m = 0.25
 r = 2
-b = 0.1
+b = 0.2
 
 # Moment of inertia can be calculated as such
 J = m*r**2
@@ -55,7 +55,7 @@ tf_output = tf_controller*tf([1], [1, 0])
 print(f"Output transfer function is {tf_output}")
 
 # It is expected to observe an impulse and a step function as the inverse transform of the controller output.
-duration = 14
+duration = 20
 t = np.linspace(0, 5, num = int(duration/(TIME_STEP*1e-3)))
 t, output = impulse_response(tf_output, t)
 
@@ -64,17 +64,18 @@ print(f"First 10 values of output: {output[:10]}")
 
 # It looks like the step function is there but the impulse is missing. (There should be a warning by the library.)
 # We can add the impulse manually.
-impulse_length = 14 # Impulse must be added to a small finite length
+impulse_length = 30 # Impulse must be added to a small finite length
 impulse_magnitude = 0.3
 for i in range(impulse_length):
     output[i] += impulse_magnitude/(impulse_length*TIME_STEP*1e-3)
 
 
-sim = Solar_Simulation(disturbance = 0) # The simulation is initiated.
+sim = Solar_Simulation(disturbance = 0, controller_output = output) # The simulation is initiated.
 # Now you can play with the disturbance parameter and observe the change in the performance of the open loop controller.
 # For this example, disturbance adds a random torque to the plant input. This could be the effent of wind in real life.
 # If the disturbance has a bad effect on the performance, how could you overcome this problem?
-
+"""
 for o in output:
     sim.set_torque(o)
     time.sleep(TIME_STEP*1e-3)
+    """

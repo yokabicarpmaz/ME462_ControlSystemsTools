@@ -5,7 +5,7 @@ WorldInfo {
 Viewpoint {
   fieldOfView 0.8
   orientation 0.39831662618180996 0.8756620069090683 0.27305661494115696 0.20629892573368191
-  position 8.45618044381667 0.8196243676611206 49.18175780700454
+  position 13.731649150316892 0.9482323032216607 71.4675466487662
   lensFlare LensFlare {
   }
 }
@@ -78,7 +78,7 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 1.999999365863692 0.001592653421466769 0
+        translation 1.999999365863693 0.0015926534214667696 0
         rotation 0 0 -1 1.57
         children [
           Solid {
@@ -130,5 +130,5 @@ Robot {
       }
     }
   ]
-  controller "solar_pd"
+  controller "solar_open_loop"
 }
