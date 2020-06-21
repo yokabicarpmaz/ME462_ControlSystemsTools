@@ -1,8 +1,8 @@
 """propeller_p controller."""
 
 # This simulation is prepared in order to demonstrate a working closed loop controller.
-# As a start, this controller will include a proportional controller.
-# the purpose of the controller is to keep the blue objet horizontal as in the initial position.
+# This example will include a pd controller.
+# The purpose of the controller is to keep the blue objet horizontal as in the initial position.
 
 import sys, os
 sys.path.append(os.path.abspath(os.path.join('..')))
@@ -31,12 +31,14 @@ num = [1]
 den = [J, b, m*g*L/2]
 tf_plant = tf(num, den)
 
-# The controller output is supposed to be proportional to the error, which is equal to target angle - current angle
-# Then a proportionality constant is required.
-# Plot the expected output for different K values.
+# For simplicity, proportionality constant will be constant for this example,
+# and the effect of varying integral constant will be shown.
+# Plot the expected output for different K_i values.
+
 target_position = math.pi/2
-for K in [0.001,0.1,1,5]:
-    tf_controller = tf([K], [1])
+K_p = 3
+for K_d in [0.01, 0.5, 5, 50]:
+    tf_controller = tf([K_d, K_p], [1])
     
     # Assume reference input is Sun's angle which is a step function.
     tf_reference = tf([target_position], [1, 0])
@@ -53,28 +55,35 @@ for K in [0.001,0.1,1,5]:
     # Let's plot the panel's expected angle vs time.
     plt.plot(t, output)
     plt.plot(t, target_position*np.ones(len(t)))
-    plt.ylabel(f'Expected Panel Angle for K = {K} (rad)')
+    plt.ylabel(f'Expected Angle for K_d = {K_d} (rad)')
     plt.xlabel('Time (s)')
     plt.show()
 
 # Does the angle of the arm converge to the desired point according to the plots?
-# What does the answer suggest about proportional controllers?
-# What are the effects of increasing K? Is it deisred to increase K?
+# Compare your answer to pi controller example.
+# Considering the plots, can pd perform better in terms of overshoot or settling time compared to p controller?
 
 # Controller function is defined.
-def get_controller_output(K, error):
-    return K*error
+def get_controller_output(K_p, K_d, errors):
+    return (K_p*errors[-1] + K_d*np.gradient(errors)[-1]/(TIME_STEP*1e-3))
+    # Gradient function is used in order to compute the numerical derivative of the error.
 
 sim = Propeller_Simulation(initial_position = 0, disturbance = 0, noise = 0)
 
-K = 5
+K_p = 3
+K_d = 1
+errors = [0] # Initial error is set.
+# Having to set an initial error shows that perfect d controller is not realizable.
+
 while True:
     # At each time step, control output is given to the plant as input.
-    error = target_position - sim.get_current_angle()
-    controller_output = get_controller_output(K, error)
+    error = target_position - sim.get_current_angle() # Error is computed.
+    errors.append(error) # Errors are kept in a list in order to compute the derivative.
+    controller_output = get_controller_output(K_p, K_d, errors)
     sim.set_velocity(controller_output)
 
     time.sleep(TIME_STEP*1e-3)
 
 # Add some noise and disturbance to see the effects on the result.
-# Can the closed loop controller work under disturbance unlike the open loop controller?
+# Are the negative effects of noise and disturbance amplified by the pd controller?
+# Compare the answer to pi controller
