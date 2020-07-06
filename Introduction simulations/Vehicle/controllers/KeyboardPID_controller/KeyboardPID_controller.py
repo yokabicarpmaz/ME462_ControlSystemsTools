@@ -1,6 +1,15 @@
 """keyboardPID_controller."""
 
 # CLOSED-LOOP PID CONTROLLED VEHICLE
+
+"""
+In this simulation, The vehicle gets input from user's keyboard command and try to
+return the track.One of the purposes of this simulation is to understand PID-controller
+effects on system's response. Besides, the differences between open and closed loop 
+systems can be observed. Another purpose is to show the transient and steady-state
+response of system.
+"""
+
 # You may need to import some classes of the controller module. Ex:
 #  from controller import Robot, Motor, GPS
 import sys

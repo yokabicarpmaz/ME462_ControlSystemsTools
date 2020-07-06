@@ -2,6 +2,13 @@
 
 #OPEN-LOOP KEYBOARD CONTROLLED VEHICLE
 
+"""
+In this simulation, The vehicle gets input from user's keyboard command and acts accordingly.
+The purpose of this simulation is to understand open-loop system's response. 
+Besides, it can be used to see the differences between open and closed loop 
+systems with following simulations.
+"""
+
 # You may need to import some classes of the controller module. Ex:
 #  from controller import Robot, Motor, Keyboard
 from controller import Robot, Motor, Keyboard
