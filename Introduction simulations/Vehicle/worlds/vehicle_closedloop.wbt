@@ -1,0 +1,191 @@
+#VRML_SIM R2020a utf8
+WorldInfo {
+  basicTimeStep 64
+}
+Viewpoint {
+  orientation 0.03757992386612813 -0.9913447902371881 -0.12579052504780128 3.051995277745226
+  position -4.0273822764848095 26.852373779071833 -995.3604402829726
+  follow "robot"
+  followType "Mounted Shot"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Robot {
+  translation 0 1.25 -920
+  children [
+    DEF Body Shape {
+      appearance PBRAppearance {
+        baseColor 1 0 0
+        roughness 0.5
+        metalness 0
+      }
+      geometry Box {
+        size 1.6 1 2.8
+      }
+    }
+    DEF WHEEL1 HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0.9 -0.75 0.85
+      }
+      device [
+        DEF ps_left PositionSensor {
+          name "ps_left"
+        }
+        DEF wheel1 RotationalMotor {
+          name "wheel1"
+          maxVelocity 100
+          maxTorque 200
+        }
+      ]
+      endPoint Solid {
+        translation 0.85 -0.75 0.85
+        rotation 0 0 1 1.5707999999999998
+        children [
+          DEF Wheels Shape {
+            appearance PBRAppearance {
+              baseColor 0 0 0
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.2
+              radius 0.5
+            }
+          }
+        ]
+        boundingObject USE Wheels
+        physics DEF PhysicsofWheels Physics {
+          density -1
+          mass 1
+        }
+      }
+    }
+    DEF WHEEL2 HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0.9 -0.75 -0.85
+      }
+      device [
+        DEF wheel2 RotationalMotor {
+          name "wheel2"
+          maxVelocity 100
+        }
+      ]
+      endPoint DEF wheel2 Solid {
+        translation 0.85 -0.75 -0.85
+        rotation 0 0 1 1.5707957586186303
+        children [
+          USE Wheels
+        ]
+        name "solid(1)"
+        boundingObject USE Wheels
+        physics USE PhysicsofWheels
+      }
+    }
+    DEF WHEEL3 HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor -0.9 -0.75 0.85
+      }
+      device [
+        DEF ps_right PositionSensor {
+          name "ps_right"
+        }
+        DEF wheel3 RotationalMotor {
+          name "wheel3"
+          maxVelocity 100
+        }
+      ]
+      endPoint DEF wheel3 Solid {
+        translation -0.85 -0.75 0.85
+        rotation 0 0 1 1.5708
+        children [
+          USE Wheels
+        ]
+        name "solid(2)"
+        boundingObject USE Wheels
+        physics USE PhysicsofWheels
+      }
+    }
+    DEF WHEEL4 HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor -0.9 -0.75 -0.85
+      }
+      device [
+        DEF wheel4 RotationalMotor {
+          name "wheel4"
+          maxVelocity 100
+        }
+      ]
+      endPoint DEF wheel4 Solid {
+        translation -0.85 -0.75 -0.85
+        rotation 0 0 1 1.5708
+        children [
+          USE Wheels
+        ]
+        name "solid(3)"
+        boundingObject USE Wheels
+        physics USE PhysicsofWheels
+      }
+    }
+    DEF gpsGPS GPS {
+      children [
+        Solid {
+          translation 0 0.5 0
+          children [
+            Shape {
+              appearance PBRAppearance {
+              }
+              geometry Cylinder {
+                height 0.5
+                radius 0.1
+              }
+            }
+          ]
+        }
+      ]
+      name "global"
+    }
+  ]
+  boundingObject USE Body
+  physics Physics {
+    density -1
+    mass 1
+  }
+  controller "KeyboardPID_controller"
+}
+Floor {
+  size 2000 2000
+  tileSize 1 1
+  appearance PBRAppearance {
+    baseColorMap ImageTexture {
+      url [
+        "textures/grass.jpg"
+      ]
+    }
+    transparency 1
+    metalness 0
+  }
+}
+StraightRoadSegment {
+  translation 0 0.01 -1000
+  width 32
+  numberOfLanes 4
+  length 2000
+}
+CrashBarrier {
+  translation 16 0 1000
+  rotation 0 1 0 1.5708
+  path [
+    0 0 0
+    2000 0 0
+  ]
+}
+CrashBarrier {
+  translation -16 0 1000
+  rotation 0 1 0 1.5708
+  name "crash barrier(1)"
+  path [
+    0 0 0
+    2000 0 0
+  ]
+}

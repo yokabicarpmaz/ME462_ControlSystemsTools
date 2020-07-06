@@ -1,0 +1,427 @@
+#VRML_SIM R2020a utf8
+WorldInfo {
+  basicTimeStep 64
+}
+Viewpoint {
+  orientation 0.16380741331727028 -0.97347761181309 -0.15971371463023434 3.2751453770269303
+  position -133.44391139372905 29.42408317002159 -98.37076418116406
+  follow "robot"
+  followType "Mounted Shot"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Robot {
+  translation -137 1.25 -21
+  children [
+    DEF Body Shape {
+      appearance PBRAppearance {
+        baseColor 1 0 0
+        roughness 0.5
+        metalness 0
+      }
+      geometry Box {
+        size 1.6 1 2.8
+      }
+    }
+    DEF WHEEL1 HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0.9 -0.75 0.85
+      }
+      device [
+        DEF ps_left PositionSensor {
+          name "ps_left"
+        }
+        DEF wheel1 RotationalMotor {
+          name "wheel1"
+          maxVelocity 100
+          maxTorque 200
+        }
+      ]
+      endPoint Solid {
+        translation 0.9 -0.749996 0.85
+        rotation 0 0 1 1.5708
+        children [
+          DEF Wheels Shape {
+            appearance PBRAppearance {
+              baseColor 0 0 0
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.2
+              radius 0.5
+            }
+          }
+        ]
+        boundingObject USE Wheels
+        physics DEF PhysicsofWheels Physics {
+          density -1
+          mass 1
+        }
+      }
+    }
+    DEF WHEEL2 HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0.9 -0.75 -0.85
+      }
+      device [
+        DEF wheel2 RotationalMotor {
+          name "wheel2"
+          maxVelocity 100
+        }
+      ]
+      endPoint DEF wheel2 Solid {
+        translation 0.9 -0.75 -0.85
+        rotation 0 0 1 1.5707957586186303
+        children [
+          USE Wheels
+        ]
+        name "solid(1)"
+        boundingObject USE Wheels
+        physics USE PhysicsofWheels
+      }
+    }
+    DEF WHEEL3 HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor -0.9 -0.75 0.85
+      }
+      device [
+        DEF ps_right PositionSensor {
+          name "ps_right"
+        }
+        DEF wheel3 RotationalMotor {
+          name "wheel3"
+          maxVelocity 100
+        }
+      ]
+      endPoint DEF wheel3 Solid {
+        translation -0.9 -0.75 0.85
+        rotation 0 0 1 1.5708
+        children [
+          USE Wheels
+        ]
+        name "solid(2)"
+        boundingObject USE Wheels
+        physics USE PhysicsofWheels
+      }
+    }
+    DEF WHEEL4 HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor -0.9 -0.75 -0.85
+      }
+      device [
+        DEF wheel4 RotationalMotor {
+          name "wheel4"
+          maxVelocity 100
+        }
+      ]
+      endPoint DEF wheel4 Solid {
+        translation -0.9 -0.75 -0.85
+        rotation 0 0 1 1.5708
+        children [
+          USE Wheels
+        ]
+        name "solid(3)"
+        boundingObject USE Wheels
+        physics USE PhysicsofWheels
+      }
+    }
+    DEF gpsGPS GPS {
+      children [
+        Solid {
+          translation 0 0.5 0
+          children [
+            Shape {
+              appearance PBRAppearance {
+              }
+              geometry Cylinder {
+                height 0.5
+                radius 0.1
+              }
+            }
+          ]
+        }
+      ]
+      name "global"
+    }
+  ]
+  boundingObject USE Body
+  physics Physics {
+    density -1
+    mass 1
+  }
+  controller "keyboard_controller"
+}
+Floor {
+  size 1000 1000
+  appearance PBRAppearance {
+    transparency 1
+    metalness 0
+  }
+}
+StraightRoadSegment {
+  translation 0 0 -5
+  width 16
+  numberOfLanes 4
+  length 200
+}
+CurvedRoadSegment {
+  translation -16 0 195
+  name "road(1)"
+  width 16
+  numberOfLanes 4
+  curvatureRadius 16
+}
+StraightRoadSegment {
+  translation -116 0 211
+  rotation 0 1 0 1.5708
+  name "road(2)"
+  width 16
+  numberOfLanes 4
+  length 100
+}
+CurvedRoadSegment {
+  translation -116 0 427
+  rotation 0 -1 0 1.5708
+  name "road(3)"
+  width 16
+  numberOfLanes 4
+  curvatureRadius 16
+}
+CurvedRoadSegment {
+  translation 55 0 64
+  rotation 0 -1 0 1.5708
+  name "road(23)"
+  width 16
+  numberOfLanes 4
+  curvatureRadius 16
+}
+CurvedRoadSegment {
+  translation 85 0 204
+  rotation 0 -1 0 1.5708
+  name "road(24)"
+  width 16
+  numberOfLanes 4
+  curvatureRadius 16
+}
+StraightRoadSegment {
+  translation -132 0 227
+  name "road(4)"
+  width 16
+  numberOfLanes 4
+  length 200
+}
+StraightRoadSegment {
+  translation 98 0 233
+  name "road(17)"
+  id "1"
+  width 16
+  numberOfLanes 4
+  length 200
+}
+StraightRoadSegment {
+  translation 221 0 96
+  name "road(32)"
+  id "1"
+  width 16
+  numberOfLanes 4
+  length 108
+}
+StraightRoadSegment {
+  translation 98 0 201
+  name "road(27)"
+  id "1"
+  width 16
+  numberOfLanes 4
+  length 6
+}
+CurvedRoadSegment {
+  translation -16 0 -5
+  rotation 0 1 0 1.5708
+  name "road(5)"
+  width 16
+  numberOfLanes 4
+  curvatureRadius 16
+}
+CurvedRoadSegment {
+  translation 85 0 201
+  rotation 0 1 0 1.5708
+  name "road(26)"
+  width 16
+  numberOfLanes 4
+  curvatureRadius 13
+}
+CurvedRoadSegment {
+  translation 23 0 -136
+  rotation 0 1 0 1.5708
+  name "road(21)"
+  width 16
+  numberOfLanes 4
+  curvatureRadius 16
+}
+CurvedRoadSegment {
+  translation 205 0 96
+  rotation 0 1 0 1.5708
+  name "road(29)"
+  width 16
+  numberOfLanes 4
+  curvatureRadius 16
+}
+CurvedRoadSegment {
+  translation 205 0 204
+  name "road(31)"
+  width 16
+  numberOfLanes 4
+  curvatureRadius 16
+}
+StraightRoadSegment {
+  translation -116 0 -21
+  rotation 0 1 0 1.5708
+  name "road(6)"
+  width 16
+  numberOfLanes 4
+  length 100
+}
+StraightRoadSegment {
+  translation -127 0 -152
+  rotation 0 1 0 1.5708
+  name "road(20)"
+  width 16
+  numberOfLanes 4
+  length 150
+}
+StraightRoadSegment {
+  translation 55 0 80
+  rotation 0 1 0 1.5708
+  name "road(28)"
+  width 16
+  numberOfLanes 4
+  length 150
+}
+StraightRoadSegment {
+  translation 111 0 220
+  rotation 0 1 0 1.5708
+  name "road(30)"
+  width 16
+  numberOfLanes 4
+  length 95
+}
+CurvedRoadSegment {
+  translation -116 0 227
+  rotation 0 -1 0 3.1416
+  name "road(7)"
+  width 16
+  numberOfLanes 4
+  curvatureRadius 16
+}
+CurvedRoadSegment {
+  translation 85 0 204
+  rotation 0 -1 0 3.1416
+  name "road(25)"
+  width 16
+  numberOfLanes 4
+  curvatureRadius 16
+}
+Roundabout {
+  translation -137 0 -21
+  rotation 0 1 0 0.7854
+  outerRadius 16
+  startRoadsWidth 16
+  startRoadsNumberOfLanes 4
+}
+StraightRoadSegment {
+  translation -137 0 0
+  name "road(8)"
+  width 16
+  numberOfLanes 4
+  length 100
+}
+StraightRoadSegment {
+  translation -137 0 -142
+  name "road(18)"
+  width 16
+  numberOfLanes 4
+  length 100
+}
+StraightRoadSegment {
+  translation 39 0 -136
+  name "road(22)"
+  id "2"
+  width 16
+  numberOfLanes 4
+  length 200
+}
+StraightRoadSegment {
+  translation -373 0 -21
+  rotation 0 1 0 1.5708
+  name "road(9)"
+  width 16
+  numberOfLanes 4
+  length 220
+}
+CurvedRoadSegment {
+  translation -167 0 100
+  name "road(10)"
+  width 16
+  numberOfLanes 4
+  curvatureRadius 30
+}
+StraightRoadSegment {
+  translation -372 0 130
+  rotation 0 1 0 1.5708
+  name "road(11)"
+  width 16
+  numberOfLanes 4
+  length 205
+}
+CurvedRoadSegment {
+  translation -372 0 99
+  rotation 0 1 0 -1.5707996938995747
+  name "road(12)"
+  width 16
+  numberOfLanes 4
+  curvatureRadius 31
+}
+CurvedRoadSegment {
+  translation -373 0 9
+  rotation 0 1 0 3.141592653589793
+  name "road(13)"
+  width 16
+  numberOfLanes 4
+  curvatureRadius 30
+}
+StraightRoadSegment {
+  translation -403 0 9
+  name "road(14)"
+  width 16
+  numberOfLanes 4
+  length 90
+}
+StraightRoadSegment {
+  translation -116 0 443
+  rotation 0 1 0 1.5708
+  name "road(15)"
+  width 16
+  numberOfLanes 4
+  length 205
+}
+CurvedRoadSegment {
+  translation 88 0 433
+  name "road(16)"
+  width 16
+  numberOfLanes 4
+}
+CurvedRoadSegment {
+  translation -127 0 -142
+  rotation 0 1 0 3.141592653589793
+  name "road(19)"
+  width 16
+  numberOfLanes 4
+}
+RoadIntersection {
+  translation 98 0 220
+  rotation 0 1 0 0.7853996938995746
+  roadsWidth 16
+  startRoadsNumberOfLanes 4
+}
