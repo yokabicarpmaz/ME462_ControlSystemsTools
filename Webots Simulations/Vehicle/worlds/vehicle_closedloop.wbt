@@ -3,8 +3,8 @@ WorldInfo {
   basicTimeStep 64
 }
 Viewpoint {
-  orientation 0.03757992386612813 -0.9913447902371881 -0.12579052504780128 3.051995277745226
-  position -4.0273822764848095 26.852373779071833 -995.3604402829726
+  orientation 0.03735562602066422 -0.9907117860017228 -0.130746756295829 3.051620599211588
+  position -4.8255069695663115 29.49556509276645 -1002.5055459314356
   follow "robot"
   followType "Mounted Shot"
 }
@@ -151,7 +151,7 @@ Robot {
     density -1
     mass 1
   }
-  controller "KeyboardPID_controller"
+  controller "PID_controller"
 }
 Floor {
   size 2000 2000

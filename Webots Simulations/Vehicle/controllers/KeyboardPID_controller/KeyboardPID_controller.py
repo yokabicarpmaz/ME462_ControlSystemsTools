@@ -1,4 +1,5 @@
 """keyboardPID_controller."""
+# This controller is compatible with 'vehicle_closedloop' world.
 
 # CLOSED-LOOP PID CONTROLLED VEHICLE
 
@@ -14,7 +15,7 @@ response of system.
 #  from controller import Robot, Motor, GPS
 import sys
 from controller import Robot, Motor, Keyboard
-from controller import PositionSensor, GPS
+from controller import GPS
 import time
 import numpy as np
 import matplotlib.pyplot as plt
@@ -56,12 +57,13 @@ error_log = []
 previous_error = 0
 error = 0
 
-def Controller(Kp,Ki,Kd,Error,cumulative_error,previous_error,TIME_STEP):
+def Controller(Kp,Ki,Kd,Error,cumulative_error,previous_error,TIME_STEP):  #PID-controller function
     controlled_velocity = (Error * Kp + cumulative_error * Ki + previous_error * Kd) / (2*math.pi)
     #controlled velocity which is converted to rad/s
     return controlled_velocity
 
-while robot.step(TIME_STEP) != -1:
+while robot.step(TIME_STEP) != -1:  # Main loop:
+# - perform simulation steps until Webots is stopping the controller
     key = keyboard.getKey()  #allow to get keyboard command
     if key == ord('D') or key == ord('d'):
         #set leftwheel speed as 10.0 rad/s to turn right
@@ -77,9 +79,10 @@ while robot.step(TIME_STEP) != -1:
         buttonRightSpeed = 0.0      
         
     time +=TIME_STEP    
-    read_position= gps.getValues()
+    read_position= gps.getValues()  # GPS returns a 3D-vector
     previous_error = error 
-    error = target_position-read_position[0]
+    error = target_position-read_position[0] 
+    #while calculating the error, x-coordinate is used.
     error_log.append(error)
     cumulative_error = np.sum(error_log)*(TIME_STEP*1e-3)
     gps_log.append(read_position[0])

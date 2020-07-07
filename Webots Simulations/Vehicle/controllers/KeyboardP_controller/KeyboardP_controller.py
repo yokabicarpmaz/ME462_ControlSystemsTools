@@ -1,6 +1,7 @@
 """keyboardP_controller controller."""
+# This controller is compatible with 'vehicle_closedloop' world.
 
-# CLOSED-LOOP P CONTROLLED VEHICLE
+# CLOSED-LOOP P-CONTROLLED VEHICLE
 
 """
 In this simulation, The vehicle gets input from user's keyboard command and try to
@@ -14,7 +15,7 @@ response of system.
 #  from controller import Robot, Motor, DistanceSensor
 import sys
 from controller import Robot, Motor, Keyboard
-from controller import PositionSensor, GPS
+from controller import GPS
 import time
 import numpy as np
 import matplotlib.pyplot as plt
@@ -51,12 +52,13 @@ controlled_velocity = 0.0
 Kp = 3  #Proportional Gain
 gps_log = []
 
-def Controller(Kp,Error,TIME_STEP):
+def Controller(Kp,Error,TIME_STEP):  #P-controller function
     controlled_velocity = (Error * Kp) / (2*math.pi) 
     #controlled velocity which is converted to rad/s
     return controlled_velocity
 
-while robot.step(TIME_STEP) != -1:
+while robot.step(TIME_STEP) != -1:  # Main loop:
+# - perform simulation steps until Webots is stopping the controller
     key = keyboard.getKey() #allow to get keyboard command
     if key == ord('D') or key == ord('d'):
         #set leftwheel speed as 10.0 rad/s to turn right
@@ -72,8 +74,9 @@ while robot.step(TIME_STEP) != -1:
         buttonRightSpeed = 0.0      
         
     time +=TIME_STEP    
-    read_position= gps.getValues()
+    read_position= gps.getValues() # GPS returns a 3D-vector
     error = target_position-read_position[0] 
+    #while calculating the error, x-coordinate is used.
     gps_log.append(read_position[0])
     controlled_velocity = Controller(Kp,error,TIME_STEP)
         

@@ -151,7 +151,7 @@ Robot {
     density -1
     mass 1
   }
-  controller "keyboard_controller"
+  controller "OpenLoop_controller"
 }
 Floor {
   size 1000 1000

@@ -1,12 +1,11 @@
 """keyboard_controller."""
 
-#OPEN-LOOP KEYBOARD CONTROLLED VEHICLE
+# KEYBOARD CONTROLLED VEHICLE
 
 """
-In this simulation, The vehicle gets input from user's keyboard command and acts accordingly.
-The purpose of this simulation is to understand open-loop system's response. 
-Besides, it can be used to see the differences between open and closed loop 
-systems with following simulations.
+In this simulation, The vehicle gets input from the user's 
+keyboard command and acts accordingly.The purpose of this simulation is 
+to get used to the Webots environment.
 """
 
 # You may need to import some classes of the controller module. Ex:
@@ -38,7 +37,8 @@ print('Press [S] or [s] to move backward')
 print('Press [D] or [d] to turn right')
 print('Press [A] or [a] to turn left')
 
-while robot.step(TIME_STEP) != -1:
+while robot.step(TIME_STEP) != -1:  # Main loop:
+# - perform simulation steps until Webots is stopping the controller
     key = keyboard.getKey()  #allow to get keyboard command
     if key == ord('W') or key == ord('w'):
         #set forward speed as 15 rad/s
